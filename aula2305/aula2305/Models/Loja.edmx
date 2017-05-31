@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="lojadbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tb_categoria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="nchar" MaxLength="30" />
+          <Property Name="Descricao" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="tb_produto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="nchar" MaxLength="50" />
+          <Property Name="Descricao" Type="nchar" MaxLength="10" />
+          <Property Name="Categoria" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tb_produto_tb_categoria">
+          <End Role="tb_categoria" Type="Self.tb_categoria" Multiplicity="1" />
+          <End Role="tb_produto" Type="Self.tb_produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_categoria">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_produto">
+              <PropertyRef Name="Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="lojadbModelStoreContainer">
+          <EntitySet Name="tb_categoria" EntityType="Self.tb_categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_produto" EntityType="Self.tb_produto" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tb_produto_tb_categoria" Association="Self.FK_tb_produto_tb_categoria">
+            <End Role="tb_categoria" EntitySet="tb_categoria" />
+            <End Role="tb_produto" EntitySet="tb_produto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="lojadbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tb_categoria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="Descricao" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="tb_produto" Relationship="Self.FK_tb_produto_tb_categoria" FromRole="tb_categoria" ToRole="tb_produto" />
+        </EntityType>
+        <EntityType Name="tb_produto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Descricao" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Categoria" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_categoria" Relationship="Self.FK_tb_produto_tb_categoria" FromRole="tb_produto" ToRole="tb_categoria" />
+        </EntityType>
+        <Association Name="FK_tb_produto_tb_categoria">
+          <End Role="tb_categoria" Type="Self.tb_categoria" Multiplicity="1" />
+          <End Role="tb_produto" Type="Self.tb_produto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_categoria">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_produto">
+              <PropertyRef Name="Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="lojadbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tb_categoria" EntityType="Self.tb_categoria" />
+          <EntitySet Name="tb_produto" EntityType="Self.tb_produto" />
+          <AssociationSet Name="FK_tb_produto_tb_categoria" Association="Self.FK_tb_produto_tb_categoria">
+            <End Role="tb_categoria" EntitySet="tb_categoria" />
+            <End Role="tb_produto" EntitySet="tb_produto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="lojadbModelStoreContainer" CdmEntityContainer="lojadbEntities">
+          <EntitySetMapping Name="tb_categoria">
+            <EntityTypeMapping TypeName="lojadbModel.tb_categoria">
+              <MappingFragment StoreEntitySet="tb_categoria">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_produto">
+            <EntityTypeMapping TypeName="lojadbModel.tb_produto">
+              <MappingFragment StoreEntitySet="tb_produto">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

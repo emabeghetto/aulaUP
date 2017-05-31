@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CatDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CatDBStoreContainer">
+    <EntitySet Name="Gatos" EntityType="CatDB.Store.Gatos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Racas" EntityType="CatDB.Store.Racas" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="GatoRaca" Association="CatDB.Store.GatoRaca">
+      <End Role="Gato" EntitySet="Gatos" />
+      <End Role="Raca" EntitySet="Racas" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Gatos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GatoNome" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="GatoIdade" Type="int" Nullable="false" />
+    <Property Name="Raca_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Racas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RacaNome" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="GatoRaca">
+    <End Role="Gato" Type="CatDB.Store.Gatos" Multiplicity="*" />
+    <End Role="Raca" Type="CatDB.Store.Racas" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Raca">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Gato">
+        <PropertyRef Name="Raca_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CatDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CatDBContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Gatos" EntityType="CatDB.Gato" />
+          <EntitySet Name="Racas" EntityType="CatDB.Raca" />
+          <AssociationSet Name="GatoRaca" Association="CatDB.GatoRaca">
+            <End Role="Gato" EntitySet="Gatos" />
+            <End Role="Raca" EntitySet="Racas" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Gato">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GatoNome" Type="String" Nullable="false" />
+          <Property Name="GatoIdade" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Raca" Relationship="CatDB.GatoRaca" FromRole="Gato" ToRole="Raca" />
+        </EntityType>
+        <EntityType Name="Raca">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RacaNome" Type="String" Nullable="false" />
+          <NavigationProperty Name="Gato" Relationship="CatDB.GatoRaca" FromRole="Raca" ToRole="Gato" />
+        </EntityType>
+        <Association Name="GatoRaca">
+          <End Type="CatDB.Gato" Role="Gato" Multiplicity="*" />
+          <End Type="CatDB.Raca" Role="Raca" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CatDBStoreContainer" CdmEntityContainer="CatDBContainer">
+    <EntitySetMapping Name="Gatos">
+      <EntityTypeMapping TypeName="IsTypeOf(CatDB.Gato)">
+        <MappingFragment StoreEntitySet="Gatos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="GatoNome" ColumnName="GatoNome" />
+          <ScalarProperty Name="GatoIdade" ColumnName="GatoIdade" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Racas">
+      <EntityTypeMapping TypeName="IsTypeOf(CatDB.Raca)">
+        <MappingFragment StoreEntitySet="Racas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RacaNome" ColumnName="RacaNome" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="GatoRaca" TypeName="CatDB.GatoRaca" StoreEntitySet="Gatos">
+      <EndProperty Name="Raca">
+        <ScalarProperty Name="Id" ColumnName="Raca_Id" />
+      </EndProperty>
+      <EndProperty Name="Gato">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
